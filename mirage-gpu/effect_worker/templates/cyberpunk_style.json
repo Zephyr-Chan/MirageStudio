@@ -1,0 +1,112 @@
+{
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "v1-5-pruned-emaonly.ckpt"
+    },
+    "_meta": {
+      "title": "Checkpoint 加载器"
+    }
+  },
+  "2": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "{{prompt}}, cyberpunk city, neon lights, rain, holographic billboards, futuristic architecture, blade runner aesthetic, ultra detailed, cinematic lighting, 8k",
+      "clip": ["1", 1]
+    },
+    "_meta": {
+      "title": "正向提示词"
+    }
+  },
+  "3": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "{{negative_prompt}}, low quality, blurry, deformed, ugly, watermark, text, signature",
+      "clip": ["1", 1]
+    },
+    "_meta": {
+      "title": "反向提示词"
+    }
+  },
+  "4": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "{{input_image}}"
+    },
+    "_meta": {
+      "title": "输入图像"
+    }
+  },
+  "5": {
+    "class_type": "ControlNetLoader",
+    "inputs": {
+      "control_net_name": "control_v11p_sd15_canny.pth"
+    },
+    "_meta": {
+      "title": "ControlNet 加载器"
+    }
+  },
+  "6": {
+    "class_type": "ControlNetApply",
+    "inputs": {
+      "conditioning": ["2", 0],
+      "control_net": ["5", 0],
+      "image": ["4", 0],
+      "strength": {{cn_strength}},
+      "start_percent": 0.0,
+      "end_percent": 1.0
+    },
+    "_meta": {
+      "title": "ControlNet 应用"
+    }
+  },
+  "7": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "_meta": {
+      "title": "空 Latent"
+    }
+  },
+  "8": {
+    "class_type": "KSampler",
+    "inputs": {
+      "seed": {{seed}},
+      "steps": {{steps}},
+      "cfg": {{cfg}},
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 0.75,
+      "model": ["1", 0],
+      "positive": ["6", 0],
+      "negative": ["3", 0],
+      "latent_image": ["7", 0]
+    },
+    "_meta": {
+      "title": "KSampler 采样器"
+    }
+  },
+  "9": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["8", 0],
+      "vae": ["1", 2]
+    },
+    "_meta": {
+      "title": "VAE 解码"
+    }
+  },
+  "10": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "filename_prefix": "mirage_cyberpunk",
+      "images": ["9", 0]
+    },
+    "_meta": {
+      "title": "保存图像"
+    }
+  }
+}

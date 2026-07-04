@@ -1,0 +1,82 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: mirage-gateway
+  cloud:
+    gateway:
+      # 跨域全局配置
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials RETAIN_UNIQUE
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origin-patterns: "*"
+            allowed-methods: "*"
+            allowed-headers: "*"
+            allow-credentials: true
+            max-age: 3600
+      # 路由规则
+      routes:
+        # 前端 API -> mirage-web (localhost:8080)
+        - id: mirage-web-api
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/**
+          filters:
+            # 令牌桶限流: 每秒 10 个令牌, 桶容量 20 (突发)
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+                redis-rate-limiter.requestedTokens: 1
+                key-resolver: "#{@ipKeyResolver}"
+
+        # Agent 内部回调 -> mirage-web (localhost:8080)
+        - id: mirage-web-internal
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/internal/**
+
+        # WebSocket -> mirage-web (localhost:8080)
+        - id: mirage-web-ws
+          uri: ws://localhost:8080
+          predicates:
+            - Path=/ws/**
+
+        # Python Agent 服务 -> localhost:9001
+        - id: python-agent
+          uri: http://localhost:9001
+          predicates:
+            - Path=/agent/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                redis-rate-limiter.requestedTokens: 1
+                key-resolver: "#{@ipKeyResolver}"
+
+  # 响应式 Redis (限流依赖)
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 1
+      timeout: 5000ms
+      lettuce:
+        pool:
+          max-active: 16
+          max-idle: 8
+          min-idle: 2
+
+# JWT 配置 (需与 mirage-web 共享同一 secret)
+jwt:
+  secret: mirage-studio-secret-key-must-be-at-least-32-bytes-long-for-hs256
+
+logging:
+  level:
+    root: INFO
+    com.mirage.gateway: DEBUG
+    org.springframework.cloud.gateway: INFO

@@ -1,0 +1,66 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+  tomcat:
+    max-threads: 200
+    accept-count: 100
+
+spring:
+  application:
+    name: mirage-web
+  profiles:
+    active: dev
+  # 引入 DAO 层数据源配置
+  config:
+    import:
+      - "classpath:application-dao.yml"
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 500MB
+      max-request-size: 500MB
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      timeout: 5000ms
+      lettuce:
+        pool:
+          max-active: 16
+          max-idle: 8
+          min-idle: 2
+
+# MyBatis-Plus (覆盖 dao 层默认, 关闭 SQL 日志)
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+
+# JWT 配置
+jwt:
+  secret: mirage-studio-secret-key-must-be-at-least-32-bytes-long-for-hs256
+  expiration: 86400000  # 24h
+
+# MinIO 配置 (与 docker-compose.yml 对齐)
+minio:
+  endpoint: http://localhost:9000
+  access-key: mirage
+  secret-key: mirage12345
+  bucket: mirage-photos
+
+# ComfyUI 配置
+comfyui:
+  base-url: http://localhost:8188
+  ws-url: ws://localhost:8188/ws
+
+# GPU 槽位配置
+gpu:
+  slots: 2
+
+# 日志
+logging:
+  level:
+    root: INFO
+    com.mirage: DEBUG
+    org.springframework.security: INFO

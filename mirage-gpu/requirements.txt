@@ -1,0 +1,39 @@
+# MirageStudio GPU 微服务依赖
+# MVP 阶段核心依赖，后续可扩展 gaussian-splatting / COLMAP 相关
+
+# Redis 客户端（Streams 消费组 + Lua 脚本）
+redis>=5.0
+
+# MinIO 对象存储 SDK
+minio>=7.2
+
+# HTTP 客户端（调用 Java 后端 + ComfyUI REST API）
+httpx>=0.27
+
+# WebSocket 客户端（ComfyUI 进度监听）
+websockets>=12.0
+
+# Jinja2 模板引擎（ComfyUI 工作流渲染）
+jinja2>=3.1
+
+# Pillow 图像处理（mock 图像生成 + 图像格式转换）
+Pillow>=10.0
+
+# NumPy（PLY -> .splat 转换的数值计算）
+numpy>=1.24
+
+# ========================================
+# 以下依赖用于后续集成（当前为注释占位）
+# ========================================
+
+# 3D Gaussian Splatting 训练相关
+# torch>=2.1
+# torchvision>=0.16
+# # gaussian-splatting 需从源码安装:
+# # git clone https://github.com/graphdeco-inria/gaussian-splatting.git
+# # pip install -e gaussian-splatting
+# plyfile>=0.9
+# tqdm>=4.66
+
+# COLMAP Python 绑定（可选，当前使用 CLI）
+# pycolmap>=0.6
