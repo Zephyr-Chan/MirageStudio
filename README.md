@@ -2,9 +2,7 @@
 
 > AI Agent 驱动的 3D 内容创作平台 — 融合 3D Gaussian Splatting 照片转 3D 场景重建 + AI 电影级特效生成
 
-## 项目架构
-
-四层架构，每层使用该岗位主流技术栈，精准对应五类面试岗位：
+## 项目架构：
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -31,7 +29,7 @@
 
 ## 技术栈
 
-| 层 | 技术栈 | 对应岗位 |
+| 层 | 技术栈 |
 |---|---|---|
 | 传统后端 | Java Spring Boot + Spring Cloud Gateway + MyBatis-Plus + Redis + MySQL + RocketMQ + ShardingSphere | 
 | AIGC编排 | Java Spring Boot (ComfyUI HTTP/WS 编排, 异步GPU管线, 语义缓存) | 
