@@ -30,7 +30,7 @@
 ## 技术栈
 
 | 层 | 技术栈 |
-|---|---|---|
+|---|---|
 | 传统后端 | Java Spring Boot + Spring Cloud Gateway + MyBatis-Plus + Redis + MySQL + RocketMQ + ShardingSphere | 
 | AIGC编排 | Java Spring Boot (ComfyUI HTTP/WS 编排, 异步GPU管线, 语义缓存) | 
 | AI Agent | Python LangChain/LangGraph + MCP Python SDK + FastAPI |
