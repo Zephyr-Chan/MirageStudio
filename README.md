@@ -33,10 +33,10 @@
 
 | 层 | 技术栈 | 对应岗位 |
 |---|---|---|
-| 传统后端 | Java Spring Boot + Spring Cloud Gateway + MyBatis-Plus + Redis + MySQL + RocketMQ + ShardingSphere | 传统后端开发 |
-| AIGC编排 | Java Spring Boot (ComfyUI HTTP/WS 编排, 异步GPU管线, 语义缓存) | AI 后端开发 |
-| AI Agent | Python LangChain/LangGraph + MCP Python SDK + FastAPI | AI Agent 开发 |
-| AIGC算法 | Python PyTorch + diffusers/kohya (LoRA/ControlNet微调) | AIGC算法/算法实习 |
+| 传统后端 | Java Spring Boot + Spring Cloud Gateway + MyBatis-Plus + Redis + MySQL + RocketMQ + ShardingSphere | 
+| AIGC编排 | Java Spring Boot (ComfyUI HTTP/WS 编排, 异步GPU管线, 语义缓存) | 
+| AI Agent | Python LangChain/LangGraph + MCP Python SDK + FastAPI |
+| AIGC算法 | Python PyTorch + diffusers/kohya (LoRA/ControlNet微调)|
 
 ## 项目结构
 
