@@ -121,7 +121,7 @@ docker-compose up -d comfyui
 
 ## 开发阶段
 
-- **阶段一 MVP** (当前): 端到端最小闭环 + 基础后端
+- **阶段一 MVP** : 端到端最小闭环 + 基础后端
 - **阶段二**: Agent 智能层 (Python LangGraph + MCP Server)
 - **阶段三**: 算法层 (LoRA/ControlNet微调 + 时序一致性模块)
 - **阶段四**: 传统后端加固 (分库分表 + 压测 + 可观测)
